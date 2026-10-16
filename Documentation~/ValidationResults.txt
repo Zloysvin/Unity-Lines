@@ -1,0 +1,24 @@
+PASS imported sample prefab has a working component
+PASS runtime uses standalone UnityLines assembly
+PASS packaged Resources material and shader included in standalone player
+PASS gallery creates five retained paths and submits geometry
+PASS gallery renders visible strokes without error shader
+PASS gallery renders all five shape colors
+PASS gallery disables its owned camera and drawer immediately
+PASS static retained geometry reuses mesh uploads and tessellation
+PASS adaptive LOD reduces circle vertices
+PASS perspective renders visible strokes without error shader
+PASS fixed sampling preserves all 512 circle segments
+PASS approaching the curve increases LOD detail
+PASS orthographic renders visible strokes without error shader
+PASS hidden retained path submits no vertices
+PASS disabling drawer preserves retained handles
+PASS re-enabled drawer renders retained geometry
+PASS offscreen geometry culled
+PASS near-plane crossing clips and remains visible
+PASS disposing a handle unregisters it
+PASS Update frame-only submission rendered
+PASS frame-only submission expires next frame
+PASS Clear invalidates all owned handles
+PASS Clear leaves no rendered geometry
+PASS sample recreates cleanly after re-enable

@@ -1,0 +1,7 @@
+{
+  "name": "UnityLines.Samples",
+  "rootNamespace": "UnityLines.Samples",
+  "references": [
+    "UnityLines"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "com.zloysvin.unity-lines",
+  "version": "0.1.0",
+  "displayName": "Unity Lines",
+  "license": "MIT",
+  "description": "Code-driven world-space lines, polylines, Bezier curves, arcs and circles for URP. Includes adaptive curve detail, retained paths and reusable mesh batches. No LineRenderer required.",
+  "unity": "6000.0",
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "17.0.3"
+  },
+  "keywords": [
+    "lines",
+    "curves",
+    "bezier",
+    "drawing",
+    "urp"
+  ],
+  "author": {
+    "name": "Zloysvin",
+    "url": "https://github.com/Zloysvin"
+  },
+  "documentationUrl": "https://github.com/Zloysvin/Unity-Lines/blob/main/Documentation~/Guide.md",
+  "changelogUrl": "https://github.com/Zloysvin/Unity-Lines/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/Zloysvin/Unity-Lines/blob/main/LICENSE.md",
+  "samples": [
+    {
+      "displayName": "Basic Gallery",
+      "description": "A self-contained demo prefab with its own camera. Shows retained curves and a frame-only animated line. Drag into an empty URP scene and press Play.",
+      "path": "Samples~/BasicGallery"
+    }
+  ]
+}
