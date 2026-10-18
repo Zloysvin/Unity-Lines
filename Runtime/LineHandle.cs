@@ -13,6 +13,8 @@ namespace UnityLines
         public LinePath Path { get; } = new LinePath();
         /// <summary>Stroke appearance; validated on assignment.</summary>
         public LineStyle Style { get => style; set { value.Validate(); style = value; } }
+        /// <summary>Changes this path's color alpha without replacing its RGB, width or geometry. Clamped to [0,1].</summary>
+        public float Opacity { get => style.Opacity; set => style.Opacity = value; }
         /// <summary>Optional transform whose local space contains Path points; null means world coordinates.</summary>
         public Transform RelativeTo { get; set; }
         /// <summary>Hides the path without deleting its points or registration.</summary>

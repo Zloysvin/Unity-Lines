@@ -1,6 +1,6 @@
 {
   "name": "com.zloysvin.unity-lines",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Unity Lines",
   "license": "MIT",
   "description": "Code-driven world-space lines, polylines, Bezier curves, arcs and circles for URP. Includes adaptive curve detail, retained paths and reusable mesh batches. No LineRenderer required.",

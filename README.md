@@ -75,6 +75,7 @@ Alternatively, add **Unity Lines > Line Drawing** using **Add Component**, assig
 - Retained paths (`CreatePath`) and frame-only drawing (`DrawLine`, `DrawBezier`, etc.).
 - World or transform-relative points; pixel or world-unit widths.
 - Color, alpha, antialiased edges, bounded miter joins, depth testing or overlay.
+- Overall **Opacity** slider / `drawing.Opacity`, plus per-path `handle.Opacity` and `style.Opacity`.
 - Adaptive curve detail controlled by `PixelError` and maximum segment budgets.
 - GPU stroke expansion, cached geometry/uploads and frustum culling; up to two mesh submissions per drawer.
 - Bundled shader/material included in player builds, with no manual material setup.

@@ -14,9 +14,23 @@ namespace UnityLines
         [SerializeField, Range(1, 10)] private float miterLimit = 4;
         [SerializeField] private bool adaptiveSampling = true;
         [SerializeField, Range(.1f, 4)] private float pixelError = .75f;
+        [SerializeField, Range(0, 1), Tooltip("Multiplies every line's color alpha. Zero hides all strokes without clearing their paths.")]
+        private float opacity = 1;
         private readonly LineCamera cameraData = new LineCamera();
         private static readonly int ViewportId = Shader.PropertyToID("_LineViewport");
         private static readonly int MiterId = Shader.PropertyToID("_MiterLimit");
+        private static readonly int OpacityId = Shader.PropertyToID("_Opacity");
+        /// <summary>Overall alpha multiplier for both depth modes. Finite values are clamped to [0,1].
+        /// Changes use a shader uniform, preserving cached geometry. Zero skips submission and drops frame-only commands.</summary>
+        public float Opacity
+        {
+            get => LinePath.IsFinite(opacity) ? Mathf.Clamp01(opacity) : 1;
+            set
+            {
+                if (!LinePath.IsFinite(value)) throw new ArgumentOutOfRangeException(nameof(value), "Opacity must be finite.");
+                opacity = Mathf.Clamp01(value);
+            }
+        }
         /// <summary>Enables curve LOD; turn off to use the original fixed segment budgets.</summary>
         public bool AdaptiveSampling { get => adaptiveSampling; set => adaptiveSampling = value; }
         /// <summary>Conservative projected chord-error target in camera pixels, subject to the curve's segment cap.</summary>
@@ -124,15 +138,18 @@ namespace UnityLines
         private void LateUpdate()
         {
             LastVertexCount = 0;
+            LastResampledPathCount = 0; LastUploadCount = 0;
             if (submittedFrame != Time.frameCount) frameCount = 0;
+            float alpha = Opacity;
+            if (alpha <= 0) { frameCount = 0; return; }
             var camera = targetCamera != null ? targetCamera : Camera.main;
             if (camera == null || !camera.isActiveAndEnabled || !EnsureResources()) { frameCount = 0; return; }
             depthBatch.Clear(); overlayBatch.Clear();
             cameraData.Update(camera);
-            LastResampledPathCount = 0; LastUploadCount = 0;
             float limit = LinePath.IsFinite(miterLimit) ? Mathf.Clamp(miterLimit, 1, 10) : 4;
             depthMaterial.SetVector(ViewportId, cameraData.Viewport); overlayMaterial.SetVector(ViewportId, cameraData.Viewport);
             depthMaterial.SetFloat(MiterId, limit); overlayMaterial.SetFloat(MiterId, limit);
+            depthMaterial.SetFloat(OpacityId, alpha); overlayMaterial.SetFloat(OpacityId, alpha);
             foreach (var path in paths)
                 if (path.Visible) Append(path.Cache, path.Path, path.Style, path.RelativeTo, limit);
             for (int i = 0; i < frameCount; i++)

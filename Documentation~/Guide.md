@@ -130,6 +130,25 @@ Arc angles are signed degrees within -360..360, using `Quaternion.AngleAxis` aro
 
 ## Appearance and depth
 
+### Opacity
+
+Use the **Opacity** slider on **Line Drawing**, or set it from code to fade all lines owned by that drawer:
+
+```csharp
+drawing.Opacity = 0.5f; // Overall alpha multiplier, default 1.
+handle.Opacity = 0.4f;  // This retained path's color alpha; RGB and width are unchanged.
+
+var style = new LineStyle(Color.cyan, 2);
+style.Opacity = 0.6f;   // Alias for style.Color.a, for retained or frame-only drawing.
+drawing.DrawLine(start, end, style);
+```
+
+Effective opacity is **line color alpha × drawer opacity**, followed by antialiasing coverage. For example, a path at 0.4 with a drawer at 0.5 has an interior alpha of 0.2. These properties clamp finite values to 0..1 and reject NaN/infinity. You can still set alpha through `new Color(r, g, b, a)`. Because `LineStyle` is a struct, use `handle.Opacity` or copy/edit/reassign `handle.Style`; do not try to assign `handle.Style.Opacity` directly.
+
+Overall fading updates a shader uniform for both depth-tested and overlay lines; it does not invalidate sampled geometry or mesh colors. At zero opacity the drawer skips rendering, retains persistent paths, and discards that frame's transient commands. Raising it again restores retained paths; frame-only lines must still be submitted each frame. Per-path opacity changes update that path's vertex-color data and can upload its containing batch. Opacity does not affect labels or other UI.
+
+### Width and depth
+
 ```csharp
 // Fixed camera pixel-coordinate thickness, hidden behind opaque geometry.
 var tactical = new LineStyle(Color.cyan, 2);

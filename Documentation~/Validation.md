@@ -1,5 +1,13 @@
 # Package validation
 
+## 0.1.1 opacity update
+
+The updated standalone assembly and the matching project's runtime/editor assemblies compile successfully with Unity 6000.0.39f1 compiler references. Runtime and shader copies were checked for parity apart from namespace/resource names. The rendering results below apply to 0.1.0; no new player rendering tests were run for 0.1.1.
+
+To check opacity manually, vary the Line Drawing component's Opacity slider between 1, 0.5 and 0. Retained lines should fade, disappear and return. Use a path with color alpha 0.5 and drawer opacity 0.5 to check their combined 0.25 alpha, and inspect both depth-tested and overlay strokes. During an otherwise static fade above zero, LastUploadCount and LastResampledPathCount should stay zero after warmup. Per-path opacity changes may upload their containing batch.
+
+## 0.1.0 package checks
+
 Version 0.1.0 was checked in a separate Unity project with no game scripts. The project referenced this repository as a local UPM dependency through `package.json`; it did not copy the runtime into Assets.
 
 ## Configuration

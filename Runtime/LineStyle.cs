@@ -15,6 +15,17 @@ namespace UnityLines
         public LineWidthSpace WidthSpace;
         public bool DepthTest;
 
+        /// <summary>Alias for Color.a. Finite values are clamped to [0,1]; RGB is preserved.</summary>
+        public float Opacity
+        {
+            get => Color.a;
+            set
+            {
+                if (!LinePath.IsFinite(value)) throw new ArgumentOutOfRangeException(nameof(value), "Opacity must be finite.");
+                Color.a = Mathf.Clamp01(value);
+            }
+        }
+
         /// <summary>Creates a stroke. Depth-tested strokes are hidden by opaque scene geometry.</summary>
         public LineStyle(Color color, float width = 2, LineWidthSpace widthSpace = LineWidthSpace.Pixels, bool depthTest = true)
         { Color = color; Width = width; WidthSpace = widthSpace; DepthTest = depthTest; }

@@ -1,6 +1,10 @@
 Shader "UnityLines/LineStroke"
 {
-    Properties { [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Depth test", Float) = 4 }
+    Properties
+    {
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Depth test", Float) = 4
+        _Opacity ("Opacity", Range(0, 1)) = 1
+    }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -18,6 +22,7 @@ Shader "UnityLines/LineStroke"
             CBUFFER_START(UnityPerMaterial)
             float4 _LineViewport;
             float _MiterLimit;
+            float _Opacity;
             CBUFFER_END
             struct Attributes
             {
@@ -68,7 +73,7 @@ Shader "UnityLines/LineStroke"
             {
                 float edge = max(abs(input.stroke.x) - input.stroke.y, max(-input.stroke.z, -input.stroke.w));
                 float aa = max(fwidth(edge), .0001);
-                return half4(input.color.rgb, input.color.a * saturate(.5 - edge / aa));
+                return half4(input.color.rgb, input.color.a * _Opacity * saturate(.5 - edge / aa));
             }
             ENDHLSL
         }
